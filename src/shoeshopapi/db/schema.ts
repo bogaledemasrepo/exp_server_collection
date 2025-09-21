@@ -8,6 +8,7 @@ export const UsersTable = pgTable("users", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   avator:varchar("avator",{ length: 255 }),
+  password:varchar({length:255}).notNull(),
   role:UserRole("userRole").default("CUSTOMER"),
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
@@ -35,7 +36,7 @@ export const OrderTable = pgTable("orders", {
   id: uuid().primaryKey().defaultRandom().notNull(),
   orderDate:date().notNull(),
   userId:uuid("userId").references(()=>UsersTable.id).notNull(),
-  status:OrderStatus().default("ORDERED"),
+  status:OrderStatus().default("ORDERED").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

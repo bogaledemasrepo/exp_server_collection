@@ -1,23 +1,14 @@
 import express, { type Request, type Response } from 'express';
-import db from '../db/index.ts';
-import { UsersTable } from '../db/schema.ts';
+import { getProfile } from '../services/UserServices.ts';
+import { handleLogin, handleRegister } from '../services/AuthServices.ts';
 
 const authRouter = express.Router();
 
-const handleGetMe= (req: Request, res: Response) => {
-  res.status(200).json({token:"ndrfknvknvskjfbvkjdbvdvhdjs jh j"})
-}
 
-const handleLogin= (req: Request, res: Response) => {
-  res.status(200).json({token:"ndrfknvknvskjfbvkjdbvdvhdjs jh j"})
-}
-const handleRegister= (req: Request, res: Response) => {
-  res.status(200).json({token:"ndrfknvknvskjfbvkjdbvdvhdjs jh j"})
-}
 const handleForgetPassword= (req: Request, res: Response) => {
   res.status(200).json({token:"ndrfknvknvskjfbvkjdbvdvhdjs jh j"})
 }
-authRouter.get('/me',handleGetMe)
+authRouter.get('/me',getProfile)
 .post('/login',handleLogin)
 .post('/register',handleRegister)
 .post('/forget-password',handleForgetPassword)

@@ -1,6 +1,7 @@
 import express, { type Request, type Response } from 'express';
 import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
+import db from "./shoeshopapi/db/index.ts";
 
 dotenv.config();
 const app = express();
@@ -9,6 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const handleHealth = (req: Request, res: Response) => {
+
+  console.log(db)
   res.status(200).json({success:true})
 }
 

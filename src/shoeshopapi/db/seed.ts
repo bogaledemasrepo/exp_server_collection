@@ -1,15 +1,18 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import 'dotenv/config';
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import bcrypt from "bcrypt";
 import { UsersTable, ShoesTable, ProfileTable, OrderTable, OrderItemTable, UserRole, OrderStatus } from "./schema.ts";
 import type { InferInsertModel } from "drizzle-orm";
 
-async function seed() {
-  // Initialize database connection
-  const pool = new Pool({
-    connectionString: process.env.API1_DATABASE_URL,
-  });
-  const db = drizzle(pool);
+if (!process.env.SHOES_SHOP_API_DATABASE_URL) {
+  throw new Error("SHOES_SHOP_API_DATABASE_URL is not set in .env");
+}
 
+const client = postgres(process.env.SHOES_SHOP_API_DATABASE_URL);
+const db = drizzle(client, { schema: { UsersTable, ShoesTable, ProfileTable, OrderTable, OrderItemTable }, logger: true });
+
+async function seed() {
   try {
     // Clear existing data (optional, comment out if not needed)
     await db.delete(OrderItemTable);
@@ -18,30 +21,38 @@ async function seed() {
     await db.delete(ShoesTable);
     await db.delete(UsersTable);
 
+    // Hash passwords
+    const saltRounds = 10;
+    const adminPassword = await bcrypt.hash("admin123", saltRounds);
+    const customerPassword = await bcrypt.hash("customer123", saltRounds);
+
     // Seed UsersTable
     type UserInsert = InferInsertModel<typeof UsersTable>;
     const users = await db
       .insert(UsersTable)
       .values([
-              {
-                  name: "John Doe",
-                  email: "john.doe@example.com",
-                  avator: "https://example.com/avatars/john.jpg",
-                  role: UserRole().default("ADMIN"),
-              },
-              {
-                  name: "Jane Smith",
-                  email: "jane.smith@example.com",
-                  avator: "https://example.com/avatars/jane.jpg",
-                  role: UserRole().default("CUSTOMER"),
-              },
-              {
-                  name: "Bob Johnson",
-                  email: "bob.johnson@example.com",
-                  avator: "https://example.com/avatars/bob.jpg",
-                  role: UserRole().default("CUSTOMER"),
-              },
-          ] as unknown as UserInsert[])
+        {
+          name: "John Doe",
+          email: "john.doe@example.com",
+          avator: "https://example.com/avatars/john.jpg",
+          password:adminPassword,
+          role: "ADMIN",
+        },
+        {
+          name: "Jane Smith",
+          email: "jane.smith@example.com",
+          avator: "https://example.com/avatars/jane.jpg",
+          password:customerPassword,
+          role: "CUSTOMER",
+        },
+        {
+          name: "Bob Johnson",
+          email: "bob.johnson@example.com",
+          avator: "https://example.com/avatars/bob.jpg",
+          password:customerPassword,
+          role: "CUSTOMER",
+        },
+      ] as UserInsert[])
       .returning({ id: UsersTable.id });
 
     const userIds = users.map((user) => user.id).filter((id): id is string => id !== undefined);
@@ -110,12 +121,12 @@ async function seed() {
         {
           orderDate: "2025-09-20",
           userId: userIds[1],
-          status: OrderStatus.enumValues[0],
+          status: "ORDERED",
         },
         {
           orderDate: "2025-09-19",
           userId: userIds[2],
-          status: OrderStatus.enumValues[0],
+          status: "ORDERED",
         },
       ] as OrderInsert[])
       .returning({ id: OrderTable.id });
@@ -148,7 +159,7 @@ async function seed() {
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
-    await pool.end();
+    await client.end();
   }
 }
 
