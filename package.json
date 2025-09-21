@@ -1,0 +1,32 @@
+{
+  "name": "exp_server_collection",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+    "scripts": {
+    "dev": "bun index.ts",
+    "start":"bun index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.15.5",
+    "dotenv-cli": "^10.0.0",
+    "drizzle-kit": "^0.31.4",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.5"
+  },
+
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.44.5",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "ts-node-dev": "^2.0.0"
+  }
+}
