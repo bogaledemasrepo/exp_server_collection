@@ -3,9 +3,13 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
-    "scripts": {
-    "dev": "bun index.ts",
-    "start":"bun index.ts"
+   "main": "src/main.ts",
+  "scripts": {
+    "start": "bun run dist/index.js",
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "migrate:shoeshopapi": "bunx drizzle-kit migrate --config=drizzle.config.shoeshopapi.ts",
+    "generate:shoeshopapi": "bunx drizzle-kit generate --config=drizzle.config.shoeshopapi.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -15,7 +19,6 @@
     "nodemon": "^3.1.10",
     "tsx": "^4.20.5"
   },
-
   "peerDependencies": {
     "typescript": "^5.9.2"
   },

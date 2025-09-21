@@ -1,5 +1,4 @@
 import express, { type Request, type Response } from 'express';
-import { eq } from 'drizzle-orm';
 
 const authRouter = express.Router();
 
