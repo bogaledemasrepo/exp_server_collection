@@ -1,4 +1,6 @@
 import express, { type Request, type Response } from 'express';
+import db from '../db/index.ts';
+import { UsersTable } from '../db/schema.ts';
 
 const authRouter = express.Router();
 

@@ -2,19 +2,7 @@ import express, { type Request, type Response } from 'express';
 import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
 
-
-// const app = express();
-
-// app.use("/api/v1/shoeshopapi",shoeShopServer);
-
-// app.listen(4000, () => {
-//   console.log(`Server is running on port ${4000}`);
-// });
-
-
-
 dotenv.config();
-
 const app = express();
 const port = process.env.PORT || 3000;
 
