@@ -1,5 +1,5 @@
 {
-  "id": "3e888c7f-4afd-4094-bbff-8cf6fa4bc21a",
+  "id": "daf7ca3c-f223-4fe1-909b-fff19c996492",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -98,7 +98,7 @@
           "type": "orderStatus",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'ORDERED'"
         },
         "created_at": {
@@ -212,6 +212,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "quantity": {
           "name": "quantity",
           "type": "integer",
@@ -275,6 +281,12 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
         },
         "userRole": {
           "name": "userRole",

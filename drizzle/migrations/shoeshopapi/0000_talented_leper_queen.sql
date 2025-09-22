@@ -11,7 +11,7 @@ CREATE TABLE "orders" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"orderDate" date NOT NULL,
 	"userId" uuid NOT NULL,
-	"status" "orderStatus" DEFAULT 'ORDERED',
+	"status" "orderStatus" DEFAULT 'ORDERED' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -27,6 +27,7 @@ CREATE TABLE "shoes" (
 	"brand" varchar(255) NOT NULL,
 	"category" varchar(255) NOT NULL,
 	"discription" text,
+	"image" text NOT NULL,
 	"quantity" integer NOT NULL,
 	"soldout" integer DEFAULT 0 NOT NULL,
 	"unitPrice" numeric NOT NULL,
@@ -38,6 +39,7 @@ CREATE TABLE "users" (
 	"name" text NOT NULL,
 	"email" text NOT NULL,
 	"avator" varchar(255),
+	"password" varchar(255) NOT NULL,
 	"userRole" "userRole" DEFAULT 'CUSTOMER',
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
