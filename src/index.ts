@@ -10,8 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const handleHealth = (req: Request, res: Response) => {
-
-  console.log(db)
   res.status(200).json({success:true})
 }
 
