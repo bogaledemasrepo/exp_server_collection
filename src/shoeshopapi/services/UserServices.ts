@@ -10,7 +10,7 @@ export const getProfile = async (req: Request & { user?: { id: string; role: str
     }
     const [user] = await db.select().from(UsersTable).where(eq(UsersTable.id, req.user.id));
     if(!user) throw new Error("Internl server error.")
-    res.json({ id: user.id, name: user.name, email: user.email, role: user.role });
+    res.json({ id: user.id, name: user.name, email: user.email, role: user.role,avator:user.avator });
   } catch (error) {
     console.error("Profile error:", error);
     res.status(500).json({ error: "Internal server error" });

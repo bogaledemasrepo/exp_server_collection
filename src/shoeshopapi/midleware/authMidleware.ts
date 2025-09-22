@@ -15,7 +15,6 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
   }
 
   const token = authHeader.split(" ")[1];
-  console.log(token)
   try {
     const secret = process.env.JWT_SECRET!;
     if (!secret) {

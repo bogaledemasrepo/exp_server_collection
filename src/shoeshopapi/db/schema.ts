@@ -18,6 +18,7 @@ export const ShoesTable = pgTable("shoes", {
   brand: varchar({ length: 255 }).notNull(),
   category: varchar({ length: 255 }).notNull(),
   discription: text(),
+  image:text().notNull(),
   quantity:integer().notNull(),
   soldout:integer().notNull().default(0),
   unitPrice:decimal().notNull(),
