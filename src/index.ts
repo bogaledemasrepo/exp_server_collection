@@ -38,7 +38,7 @@ setInterval(async function(){
  if(response.ok){
   console.log("Running ... on"+process.env.SERVERURL)
  }
-},60*1000);
+},14*60*1000);
 app.listen(port,() => {
   console.log(`Server running on http://localhost:${port}`);
 });
