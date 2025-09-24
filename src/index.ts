@@ -14,6 +14,7 @@ const handleHealth = (req: Request, res: Response) => {
 }
 
 app.get("/health",handleHealth)
+app.use('/public', express.static('public'));
 // Mount APIs
 app.use("/shoeshop", shoeShopServer);
 
@@ -31,6 +32,12 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 // Start server
-app.listen(port, () => {
+setInterval(async function(){
+ const response = await fetch(process.env.SERVERURL!);
+ if(response.ok){
+  console.log("Running ... on"+process.env.SERVERURL)
+ }
+},60*1000);
+app.listen(port,() => {
   console.log(`Server running on http://localhost:${port}`);
 });
