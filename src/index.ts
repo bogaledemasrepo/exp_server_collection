@@ -1,12 +1,12 @@
 import express, { type Request, type Response } from 'express';
 import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
-import db from "./shoeshopapi/db/index.ts";
+import { uploadAvator } from './shoeshopapi/utils/file_upload.ts';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
-
+app.use(express.static('public'));
 app.use(express.json());
 
 const handleHealth = (req: Request, res: Response) => {
@@ -14,7 +14,8 @@ const handleHealth = (req: Request, res: Response) => {
 }
 
 app.get("/health",handleHealth)
-app.use('/public', express.static('public'));
+
+
 // Mount APIs
 app.use("/shoeshop", shoeShopServer);
 
@@ -41,3 +42,6 @@ setInterval(async function(){
 app.listen(port,() => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+//http://localhost:3000/avator/avator-1758742375496-708631224-images1.jpeg
+//public/avator/avator-1758742375496-708631224-images1.jpeg
