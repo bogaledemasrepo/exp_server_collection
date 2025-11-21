@@ -1,7 +1,7 @@
 import express, { type Request, type Response } from 'express';
 import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
-import { uploadAvator } from './shoeshopapi/utils/file_upload.ts';
+import job from "./lib/cron.ts"
 
 dotenv.config();
 const app = express();
@@ -13,6 +13,7 @@ const handleHealth = (req: Request, res: Response) => {
   res.status(200).json({success:true})
 }
 
+job.start()
 app.get("/health",handleHealth)
 
 
@@ -21,7 +22,18 @@ app.use("/shoeshop", shoeShopServer);
 
 // Root route
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to the Multi-API Express Server with Bun!");
+  res.json({Description:"Welcome to the Multi-API Express Server with Bun!",
+    "PUBLIC END POINT":[{
+      "Register":{
+        url:"",
+        method:"",
+        body:{}
+      }
+    }],
+    "PRIVATE END POINT":[{
+
+    }]
+  });
 });
 
 app.use((req: Request, res: Response) => {
