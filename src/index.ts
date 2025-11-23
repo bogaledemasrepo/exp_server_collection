@@ -2,12 +2,14 @@ import express, { type Request, type Response } from 'express';
 import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
 import job from "./lib/cron.ts"
+import multer from 'multer';
 
 dotenv.config();
+const upload = multer();
 const app = express();
 const port = process.env.PORT || 3000;
+
 app.use(express.static('public'));
-app.use(express.json());
 
 const handleHealth = (req: Request, res: Response) => {
   res.status(200).json({success:true})
@@ -17,23 +19,69 @@ job.start()
 app.get("/health",handleHealth)
 
 
-// Mount APIs
-app.use("/shoeshop", shoeShopServer);
-
 // Root route
+app.use("/shoeshop", shoeShopServer);
 app.get("/", (req: Request, res: Response) => {
   res.json({Description:"Welcome to the Multi-API Express Server with Bun!",
-    "PUBLIC END POINT":[{
-      "Register":{
-        url:"",
-        method:"",
-        body:{}
-      }
-    }],
-    "PRIVATE END POINT":[{
+    "Shoe sho api":{
+      "PUBLIC END POINT":[{
+        "Register":{
+          route:"http://localhost:3000/shoeshop/auth/login",
+          method:"POST",
+          body:        {
+            "name": "Son Smith",
+            "email": "son.smith@example.com",
+            "avator": "https://example.com/avatars/jane.jpg",
+            "password":"customer123",
+            "role": "CUSTOMER"
+          }
+        },
+        "Login":{
+          route:"http://localhost:3000/shoeshop/auth/login",
+          method:"POST",
+          body:{
+              "email": "john.doe@example.com",
+              "password":"admin123"
+            }
+        },
+      }],
+      "PRIVATE END POINT":[{
+        "Get Profile":{
+          route:"https://exp-server-collection.onrender.com/shoeshop/auth/me",
+          method:"GET"
+        },
+        "Get paged shoes":{
+          route:"",
+          method:"GET",
+        },
+        "Add shoes":{
+          route:"",
+          method:"POST",
+          body:{
 
-    }]
-  });
+          }
+        },
+        "Get shoes datail":{
+          route:"",
+          method:"GET"
+        },
+        "Update shoes":{
+          route:"",
+          method:"PUT",
+          body:{
+
+          }
+        },
+        "Delete shoes":{
+          route:"",
+          method:"DELETE"
+        },
+
+
+      }]
+    }
+  })
+
 });
 
 app.use((req: Request, res: Response) => {
@@ -54,6 +102,3 @@ setInterval(async function(){
 app.listen(port,() => {
   console.log(`Server running on http://localhost:${port}`);
 });
-
-//http://localhost:3000/avator/avator-1758742375496-708631224-images1.jpeg
-//public/avator/avator-1758742375496-708631224-images1.jpeg

@@ -1,0 +1,371 @@
+_type: export
+__export_format: 4
+__export_date: 2025-11-23T19:20:39.277Z
+__export_source: insomnia.desktop.app:v10.2.0
+resources:
+  - _id: req_d7477320aae448beac0e0bebb0129040
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763893315513
+    created: 1758482436354
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes/paged?page=0&size=6"
+    name: get paged shoes
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482436354
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_54f892b243a0466896558d9796b91259
+    parentId: wrk_4d29543733c84adda95a2bd6f16f9439
+    modified: 1758482371490
+    created: 1758482371490
+    name: shoes
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1758482371490
+    environmentType: kv
+    _type: request_group
+  - _id: wrk_4d29543733c84adda95a2bd6f16f9439
+    parentId: null
+    modified: 1758482140407
+    created: 1758482140407
+    name: shoeshopapi
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_fe094b0b416f4849827150ef414ba527
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763891230967
+    created: 1758482488984
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes"
+    name: add shoes
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482422558.5
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e39a4eeb2b2541338877942ba5a14962
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763890561506
+    created: 1758482505762
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes/shoesId"
+    name: delete shoes
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482415660.75
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_bbee24e7e719474e98497ed55511855b
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763890575862
+    created: 1758482528002
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes/shoesId"
+    name: update shoes
+    description: ""
+    method: PUT
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482412211.875
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_322cd3c931c249f6a0bcf0249a945aeb
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763891325837
+    created: 1758482475895
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes/"
+    name: get filterd shoes
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482408763
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_eea765882bd44dbebf4bf190193ecdac
+    parentId: fld_54f892b243a0466896558d9796b91259
+    modified: 1763890454681
+    created: 1758482381172
+    url: "{{ _.remotbaseurl }}/shoeshop/shoes"
+    name: get shoes
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482381172
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e210aa7405854e3ab388ba4f1885cfef
+    parentId: fld_15d9db09558b404dacbd2ad1f3772d24
+    modified: 1758745888639
+    created: 1758737240706
+    url: http://localhost:3000/shoeshop/profile/me/photos
+    name: New Request
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_60484287b48747378fcd79e526a8a89d
+          name: photos
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: /home/mrbg/Downloads/images1.jpeg
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_9f5cffc9686546799985996fd9f9ccf4
+      - name: User-Agent
+        value: insomnia/10.2.0
+        id: pair_8fe6acade5df421d89f11008ab3dc96b
+      - id: pair_854c4a79fd3c451b92bd2fbed7a30ba5
+        name: Authorization
+        value: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWEzYTRlNC1iNjAwLTRkYzktYjA0MS05NzlmM2NjZmRhYTQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NTg3NDU5NjAsImV4cCI6MTc1ODc0OTU2MH0.9-PVWT46POUALfWY2dTb9M83ZPbrnBpTpqqrpLEfuu8
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1758737240706
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_15d9db09558b404dacbd2ad1f3772d24
+    parentId: wrk_4d29543733c84adda95a2bd6f16f9439
+    modified: 1758482270262
+    created: 1758482270262
+    name: authentication
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1758482270262
+    environmentType: kv
+    _type: request_group
+  - _id: req_2da3be97de5840ed8a578eab357ea46e
+    parentId: fld_15d9db09558b404dacbd2ad1f3772d24
+    modified: 1763884731607
+    created: 1758482186338
+    url: "{{ _.remotbaseurl }}/shoeshop/auth/login"
+    name: login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+        	"email": "john.doe@example.com",
+          "password":"admin123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758482291895
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_550709ef8f984ba692ef9497acd437fb
+    parentId: fld_15d9db09558b404dacbd2ad1f3772d24
+    modified: 1758651902531
+    created: 1758482302963
+    url: https://exp-server-collection.onrender.com/shoeshopapi/auth/register
+    name: register
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |2
+                {
+                  "name": "Son Smith",
+                  "email": "son.smith@example.com",
+                  "avator": "https://example.com/avatars/jane.jpg",
+                  "password":"customer123",
+                  "role": "CUSTOMER"
+                }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.2.0
+    authentication: {}
+    metaSortKey: -1758178987416.5
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_319b487829a44bffb0ab342d0d399125
+    parentId: fld_15d9db09558b404dacbd2ad1f3772d24
+    modified: 1763884903264
+    created: 1758482328488
+    url: "{{ _.remotbaseurl }}/shoeshop/auth/me"
+    name: get profile
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters:
+      - id: pair_0f37546568154c369834c945ef73362f
+        name: Authorization
+        value: Bearer {{ _.token }}
+        description: ""
+        disabled: false
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d1d6e62632de440f8f08ce69c01f15df
+      - name: User-Agent
+        value: insomnia/10.2.0
+        id: pair_e400876ab6b342758efb268098af45c4
+      - id: pair_609c2a40e4284e738b5fc5b289e068ab
+        name: Authorization
+        value: Bearer {{ _.token }}
+        description: ""
+        disabled: false
+    authentication:
+      type: bearer
+      token: "{{ _.token }}"
+      prefix: Bearer
+      disabled: true
+    metaSortKey: -1758027335177.25
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_c9e70943e1dc3ace341abea3f67bd810e8a2d96a
+    parentId: wrk_4d29543733c84adda95a2bd6f16f9439
+    modified: 1763891514461
+    created: 1758482140409
+    name: Base Environment
+    data:
+      localbaseurl: https://exp-server-collection.onrender.com
+      remotbaseurl: http://localhost:3000
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWEzYTRlNC1iNjAwLTRkYzktYjA0MS05NzlmM2NjZmRhYTQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjM4OTE0ODgsImV4cCI6MTc2Mzg5NTA4OH0.bkur8NWsw5-N4fL_51WD0ueSmS8YkdCEcvYBVS2sNxs
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1758482140409
+    environmentType: kv
+    kvPairData:
+      - id: envPair_3e4ec9edc23d4eafb66b603f7fa9c772
+        name: localbaseurl
+        value: https://exp-server-collection.onrender.com
+        type: str
+        enabled: true
+      - id: envPair_c5135a6fdf4d4b9094a9852b49e00d9d
+        name: remotbaseurl
+        value: http://localhost:3000
+        type: str
+        enabled: true
+      - id: envPair_113979cbf61c44299b069192c0ab7a57
+        name: token
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWEzYTRlNC1iNjAwLTRkYzktYjA0MS05NzlmM2NjZmRhYTQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjM4OTE0ODgsImV4cCI6MTc2Mzg5NTA4OH0.bkur8NWsw5-N4fL_51WD0ueSmS8YkdCEcvYBVS2sNxs
+        type: str
+        enabled: true
+    _type: environment
+  - _id: jar_c9e70943e1dc3ace341abea3f67bd810e8a2d96a
+    parentId: wrk_4d29543733c84adda95a2bd6f16f9439
+    modified: 1758482140410
+    created: 1758482140410
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
