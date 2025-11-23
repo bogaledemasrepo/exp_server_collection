@@ -1,7 +1,7 @@
 import { pgTable, varchar,uuid,text,decimal, timestamp, date, pgEnum, integer } from "drizzle-orm/pg-core";
 
 export const UserRole=pgEnum("userRole",["ADMIN","CUSTOMER"]);
-export const OrderStatus=pgEnum("orderStatus",["ORDERED","SHIPPED","DELIVERED"]);
+export const OrderStatus=pgEnum("orderStatus",["PENDING","ORDERED","SHIPPED","DELIVERED"]);
 
 export const UsersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
