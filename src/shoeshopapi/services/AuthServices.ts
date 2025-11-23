@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 export const handleRegister = async (req: Request, res: Response) => {
+  console.log("Register req body ",req.body)
   try {
     const { name, email, password, avator, role } = req.body;
     // Validate input
@@ -29,7 +30,7 @@ export const handleRegister = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
-        avator,
+        avator: avator || null,
         role: role || "CUSTOMER",
       })
       .returning();
@@ -48,6 +49,7 @@ export const handleRegister = async (req: Request, res: Response) => {
   }
 }
 export const handleLogin =  async (req: Request, res: Response) => {
+  console.log("Login req body ",req.body)
   try {
     const { email, password } = req.body;
       

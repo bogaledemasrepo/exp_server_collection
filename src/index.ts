@@ -31,9 +31,7 @@ app.get("/", (req: Request, res: Response) => {
           body:        {
             "name": "Son Smith",
             "email": "son.smith@example.com",
-            "avator": "https://example.com/avatars/jane.jpg",
             "password":"customer123",
-            "role": "CUSTOMER"
           }
         },
         "Login":{

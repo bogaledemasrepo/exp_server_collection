@@ -10,8 +10,8 @@ const handleForgetPassword= (req: Request, res: Response) => {
   res.status(200).json({token:"ndrfknvknvskjfbvkjdbvdvhdjs jh j"})
 }
 authRouter.get('/me',authMiddleware,getProfile)
-.post('/login',handleLogin)
-.post('/register',handleRegister)
-.post('/forget-password',handleForgetPassword)
+.post('/login',express.json(),handleLogin)
+.post('/register',express.json(),handleRegister)
+.post('/forget-password',express.json(),handleForgetPassword)
 
 export default authRouter;

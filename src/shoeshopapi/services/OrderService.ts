@@ -9,6 +9,18 @@ interface AuthenticatedRequest extends Request {
 }
 
 
+// Define the expected structure of an item in the request body
+interface OrderItemInput {
+  shoesId: string;
+  quantity: number;
+}
+
+// Define the expected structure of the request body
+interface CreateOrderRequestBody {
+  userId: string;
+  items: OrderItemInput[];
+}
+
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -78,7 +90,7 @@ export const getOrderById = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
-export const updateOrderStatus = async (req: Request, res: Response) => {
+export const updateOrder = async (req: Request, res: Response) => {
     try {
         const orderId = req.params.id;
         const { status } = req.body;
@@ -140,20 +152,9 @@ export const deleteOrder = async (req: Request, res: Response) => {
 };  
 
 
-// Define the expected structure of an item in the request body
-interface OrderItemInput {
-  shoesId: string;
-  quantity: number;
-}
 
-// Define the expected structure of the request body
-interface CreateOrderRequestBody {
-  userId: string;
-  items: OrderItemInput[];
-}
-
-export const createOrderService = async (req: AuthenticatedRequest, res: Response) => {
-    
+export const createOrder = async (req: AuthenticatedRequest, res: Response) => {
+    console.log("Create order req body ",req.body,req.user)
     const { items } = req.body as CreateOrderRequestBody;
     const userId = req.user?.id as UUID;
 
@@ -168,7 +169,7 @@ export const createOrderService = async (req: AuthenticatedRequest, res: Respons
              // 1. Create the main Order record
             const [order] = await tx.insert(OrderTable).values(
                 {
-                    orderDate: new Date().toString(),
+                    orderDate: new Date().toLocaleString(),
                     userId: userId,
                     status: "ORDERED",
                 }
