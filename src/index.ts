@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import shoeShopServer from './shoeshopapi/index.ts';
 import job from "./lib/cron.ts"
 import multer from 'multer';
+import bgTelegramBotServer from './bgtelegrambotapi/index.ts';
 
 dotenv.config();
 const upload = multer();
@@ -21,6 +22,7 @@ app.get("/health",handleHealth)
 
 // Root route
 app.use("/shoeshop", shoeShopServer);
+app.use("/bgtgbot", bgTelegramBotServer);
 app.get("/", (req: Request, res: Response) => {
   res.json({Description:"Welcome to the Multi-API Express Server with Bun!",
     "Shoe sho api":{
