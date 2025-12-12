@@ -1,9 +1,12 @@
 import express, { type Request, type Response } from 'express';
-import dotenv from "dotenv";
-import shoeShopServer from './shoeshopapi/index.ts';
-import job from "./lib/cron.ts"
-import multer from 'multer';
 import bgTelegramBotServer from './bgtelegrambotapi/index.ts';
+import shoeShopServer from './shoeshopapi/index.ts';
+import clothesServer from './clothesapi/index.ts';
+import job from "./lib/cron.ts"
+import dotenv from "dotenv";
+import multer from 'multer';
+import freeUpload from './freefileupload/index.ts';
+
 
 dotenv.config();
 const upload = multer();
@@ -23,6 +26,8 @@ app.get("/health",handleHealth)
 // Root route
 app.use("/shoeshop", shoeShopServer);
 app.use("/bgtgbot", bgTelegramBotServer);
+app.use("/clothes", clothesServer);
+app.use("/upload",freeUpload)
 app.get("/", (req: Request, res: Response) => {
   res.json({Description:"Welcome to the Multi-API Express Server with Bun!",
     "Shoe sho api":{

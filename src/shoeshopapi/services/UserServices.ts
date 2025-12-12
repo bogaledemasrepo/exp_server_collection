@@ -47,3 +47,14 @@ export const updateProfile = async (req: Request & { user?: { id: string; role: 
   }
 }
 
+export const uploadFree = async (req: Request, res: Response) => {
+  try {
+    console.log("Request ",req.body,req.file)
+    if(req.file) return res.json({url:`${req.protocol}://${req.get("host")}/photos/${req.file.filename}`});
+    throw Error("Something went wrong!")
+  } catch (error) {
+    console.error("Profile error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
