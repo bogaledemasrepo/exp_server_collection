@@ -8,6 +8,27 @@
       "when": 1758577928242,
       "tag": "0000_talented_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765675526861,
+      "tag": "0001_pretty_charles_xavier",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765699924123,
+      "tag": "0002_new_patch",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1765727263747,
+      "tag": "0003_motionless_roulette",
+      "breakpoints": true
     }
   ]
 }

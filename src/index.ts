@@ -22,7 +22,6 @@ const handleHealth = (req: Request, res: Response) => {
 job.start()
 app.get("/health",handleHealth)
 
-
 // Root route
 app.use("/shoeshop", shoeShopServer);
 app.use("/bgtgbot", bgTelegramBotServer);
@@ -90,7 +89,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use((req: Request, res: Response) => {
-  res.status(404).json({message:"Resource not found."})
+  res.status(404).json({message:"Resource not found.!"})
 })
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: Function) => {
@@ -104,6 +103,6 @@ setInterval(async function(){
   console.log("Running ... on"+process.env.SERVERURL)
  }
 },14*60*1000);
-app.listen(port,() => {
-  console.log(`Server running on http://localhost:${port}`);
+app.listen(4000,() => {
+  console.log(`Server running on http://localhost:${4000}`);
 });

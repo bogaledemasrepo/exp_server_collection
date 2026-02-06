@@ -78,7 +78,6 @@ export const handleLogin =  async (req: Request, res: Response) => {
       throw new Error("JWT_SECRET is not set");
     }
     const token = jwt.sign({ userId: user.id, role: user.role }, secret, { expiresIn: "1h" });
-
     res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role,avator:user.avator } });
   } catch (error) {
     console.error("Login error:", error);

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 
 interface AuthRequest extends Request {
-  user?: { id: string; role: string };
+  user?: { id: string; email: string; name: string; avator: string|null; role: string };
 }
 
 export const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -27,7 +27,7 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
       return res.status(401).json({ error: "Invalid token: user not found" });
     }
 
-    req.user = { id: user.id, role: user.role||"CUSTOMER" };
+    req.user = { id: user.id, name: user.name, email: user.email, avator: user.avator, role: user.role || "CUSTOMER" };
     next();
   } catch (error) {
     return res.status(401).json({ error: "Invalid or expired token" });

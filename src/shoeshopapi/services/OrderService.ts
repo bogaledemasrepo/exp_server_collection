@@ -8,7 +8,6 @@ interface AuthenticatedRequest extends Request {
     user?: { name: string , id: string};
 }
 
-
 // Define the expected structure of an item in the request body
 interface OrderItemInput {
   shoesId: string;
@@ -19,10 +18,18 @@ interface OrderItemInput {
 interface CreateOrderRequestBody {
   userId: string;
   items: OrderItemInput[];
+  deliveryAddress:string
 }
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
+
+// Helper type for the joined and aggregated result
+type OrderWithItems = typeof OrderTable.$inferSelect & {
+    orderItems: Array<typeof OrderItemTable.$inferSelect & {
+        shoes: typeof ShoesTable.$inferSelect;
+    }>;
+};
 
 export const getOrdersPaginated = async (req: Request, res: Response) => {
     try {
@@ -35,6 +42,7 @@ export const getOrdersPaginated = async (req: Request, res: Response) => {
 
         const offset = (page - 1) * pageSize;
 
+        // --- 1. Total Count (remains the same) ---
         const [totalCountResult] = await db
             .select({
                 count: sql<number>`count(*)`
@@ -44,14 +52,50 @@ export const getOrdersPaginated = async (req: Request, res: Response) => {
         const totalItems = totalCountResult?.count || 0;
         const totalPages = Math.ceil(totalItems / pageSize);
 
-        const orders = await db
-            .select()
+        // --- 2. Paginated Query with JOIN and Aggregation ---
+        const ordersWithItemsAggregated = await db
+            .select({
+                // Select all fields from the OrderTable
+                order: OrderTable, 
+                // Aggregate order item and shoe data into a JSON array
+                orderItems: sql`json_agg(
+                    json_build_object(
+                        'id', ${OrderItemTable.id},
+                        'orderId', ${OrderItemTable.orderId},
+                        'shoesId', ${OrderItemTable.shoesId},
+                        'quantity', ${OrderItemTable.quantity},
+                        'shoes', json_build_object(
+                            'id', ${ShoesTable.id},
+                            'brand', ${ShoesTable.brand},
+                            'category', ${ShoesTable.category},
+                            'image', ${ShoesTable.image},
+                            'unitPrice', ${ShoesTable.unitPrice}
+                        )
+                    )
+                )`.as('orderItems')
+            })
             .from(OrderTable)
+            .leftJoin(OrderItemTable, eq(OrderTable.id, OrderItemTable.orderId))
+            .leftJoin(ShoesTable, eq(OrderItemTable.shoesId, ShoesTable.id))
             .limit(pageSize)
-            .offset(offset);
+            .offset(offset)
+            .groupBy(OrderTable.id); // Crucial: Group by the parent table's primary key
 
+        // --- 3. Restructure the final data ---
+
+        const finalOrders = ordersWithItemsAggregated.map(row => {
+            const items = row.orderItems as any; // Cast to 'any' or define a complex type
+            // Filter out the null/empty object if there were no order items (from leftJoin)
+            const cleanItems = items?.[0]?.id === null ? [] : items;
+
+            return {
+                ...row.order,
+                orderItems: cleanItems
+            } as OrderWithItems;
+        });
+        // --- 4. Send Response ---
         res.status(200).json({
-            data: orders,
+            data: finalOrders,
             pagination: {
                 totalItems,
                 totalPages,
@@ -68,7 +112,6 @@ export const getOrdersPaginated = async (req: Request, res: Response) => {
 export const getOrderById = async (req: Request, res: Response) => {
     try {
         const orderId = req.params.id;
-
         const order = await db
             .select()
             .from(OrderTable)
@@ -90,6 +133,7 @@ export const getOrderById = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+
 export const updateOrder = async (req: Request, res: Response) => {
     try {
         const orderId = req.params.id;
@@ -109,7 +153,6 @@ export const updateOrder = async (req: Request, res: Response) => {
         if (!result) {
             return res.status(404).json({ error: "Order not found." });
         }
-
         res.status(200).json(result);
     } catch (error) {
         console.error("Update order status error:", error);
@@ -120,15 +163,12 @@ export const updateOrder = async (req: Request, res: Response) => {
 export const deleteOrder = async (req: Request, res: Response) => {
     // 1. Get the ID from URL parameters
         const shoeId = req.params.id; 
-        
         // Simple validation to ensure an ID is present
         if (!shoeId) {
             return res.status(400).json({ error: "Shoe ID is required for deletion." });
         }
-    
         try {
             // 2. Execute the Drizzle delete query
-            // The .returning() clause is optional, but often useful to see what was deleted.
             const deletedOrders = await db
                 .delete(OrderTable)
                 .where(eq(OrderTable.id, shoeId)) // Assuming your primary key is named 'id'
@@ -154,8 +194,7 @@ export const deleteOrder = async (req: Request, res: Response) => {
 
 
 export const createOrder = async (req: AuthenticatedRequest, res: Response) => {
-    console.log("Create order req body ",req.body,req.user)
-    const { items } = req.body as CreateOrderRequestBody;
+    const { items,deliveryAddress } = req.body as CreateOrderRequestBody;
     const userId = req.user?.id as UUID;
 
     if (!userId || !items || items.length === 0) {
@@ -172,8 +211,10 @@ export const createOrder = async (req: AuthenticatedRequest, res: Response) => {
                     orderDate: new Date().toLocaleString(),
                     userId: userId,
                     status: "ORDERED",
+                    deliveryAddress
                 }
             ).returning();
+            console.log(order)
 
             // Check if order creation failed
             if (!order) {
@@ -194,12 +235,6 @@ export const createOrder = async (req: AuthenticatedRequest, res: Response) => {
 
             // 4. Update Shoe Stock (Optional but crucial in e-commerce)
             for (const item of items) {
-                // This is a crucial step to maintain inventory integrity.
-                // Subtract the ordered quantity from the stock (quantity) in ShoesTable.
-                // NOTE: The exact SQL command depends on your database and Drizzle version. 
-                // A common way is to use a raw SQL update or a specific Drizzle utility.
-                
-                // Example using Drizzle's update:
                 await tx.update(ShoesTable)
                     .set({
                         quantity: sql`${ShoesTable.quantity} - ${item.quantity}`

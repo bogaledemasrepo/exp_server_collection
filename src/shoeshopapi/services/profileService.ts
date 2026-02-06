@@ -4,11 +4,9 @@ import { ProfileTable, UsersTable } from "../db/schema.ts";
 import { eq } from "drizzle-orm";
 import { uuid } from "drizzle-orm/pg-core";
 
-
 interface AuthRequest extends Request {
   user?: { id: typeof uuid; role: string };
 }
-
 
 export const handleUserPhotoUpload = async (req: AuthRequest, res: Response) => {
   if (!req.file) {
@@ -16,8 +14,8 @@ export const handleUserPhotoUpload = async (req: AuthRequest, res: Response) => 
   }
 try {
   const fileUrl = `${req.protocol}://${req.get('host')}/photos/${req.file.filename}`;
-const userId = req.user?.id as unknown as string;
-if(!userId) throw Error("User not found from session.")
+  const userId = req.user?.id as unknown as string;
+  if(!userId) throw Error("User not found from session.")
      const existingProfile = await db
       .select()
       .from(ProfileTable)
@@ -30,14 +28,12 @@ if(!userId) throw Error("User not found from session.")
           photos: [...(existingProfile[0]?.photos || []), fileUrl],
         })
         .where(eq(ProfileTable.userId, userId));
-   res.json({ message: 'Avatar uploaded successfully', fileUrl });
-  } catch (error) {
+    res.json({ message: 'Avatar uploaded successfully', fileUrl });
+    } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to save photo to profile' });
   }
 }
-
-
 
 export const updateProfileAvator = async (req: AuthRequest, res: Response) => {
   if (!req.body.avator) {

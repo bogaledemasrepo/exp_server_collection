@@ -2,6 +2,7 @@ import { pgTable, varchar,uuid,text,decimal, timestamp, date, pgEnum, integer } 
 
 export const UserRole=pgEnum("userRole",["ADMIN","CUSTOMER"]);
 export const OrderStatus=pgEnum("orderStatus",["PENDING","ORDERED","SHIPPED","DELIVERED"]);
+export const PaymentStatus=pgEnum("paymentStatus",["PENDING","FAILD","PAID"]);
 
 export const UsersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
@@ -36,8 +37,10 @@ export const ProfileTable = pgTable("profile", {
 export const OrderTable = pgTable("orders", {
   id: uuid().primaryKey().defaultRandom().notNull(),
   orderDate:date().notNull(),
+  deliveryAddress:text(),
+  paymentStatus:PaymentStatus().default("PENDING").notNull(),
   userId:uuid("userId").references(()=>UsersTable.id).notNull(),
-  status:OrderStatus().default("ORDERED").notNull(),
+  status:OrderStatus().default("PENDING").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
