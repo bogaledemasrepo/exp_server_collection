@@ -1,0 +1,14 @@
+  services:
+    api:
+      build: .
+      ports:
+        - "3000:3000"
+      environment:
+        - SHOES_SHOP_API_DATABASE_URL=${SHOES_SHOP_API_DATABASE_URL}
+        - FAST_ECCOMERCE_API_DATABASE_URL=${FAST_ECCOMERCE_API_DATABASE_URL}
+        - UPLOAD_DIR=${UPLOAD_DIR}
+        - SERVERURL=${SERVERURL}
+        - JWT_SECRET=${JWT_SECRET}
+        - PORT=${PORT}
+        - TG_BOT_SECRET=${TG_BOT_SECRET}
+        - STRIPE_SECRET=${STRIPE_SECRET}

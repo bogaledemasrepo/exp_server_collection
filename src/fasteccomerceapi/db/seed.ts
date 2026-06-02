@@ -19,7 +19,13 @@ if (!process.env.FAST_ECCOMERCE_API_DATABASE_URL) {
 
 const client = postgres(process.env.FAST_ECCOMERCE_API_DATABASE_URL);
 const db = drizzle(client, {
-  schema: { UsersTable, ProductsTable, ProfileTable, OrderTable, OrderItemTable },
+  schema: {
+    UsersTable,
+    ProductsTable,
+    ProfileTable,
+    OrderTable,
+    OrderItemTable,
+  },
   logger: true,
 });
 

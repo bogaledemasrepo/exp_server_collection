@@ -23,7 +23,7 @@ job.start();
 app.get('/health', handleHealth);
 
 // Root route
-app.use("/fasteccomerceapi",fastEccomerce);
+app.use('/fasteccomerceapi', fastEccomerce);
 app.use('/shoeshop', shoeShopServer);
 app.use('/bgtgbot', bgTelegramBotServer);
 app.use('/clothes', clothesServer);
