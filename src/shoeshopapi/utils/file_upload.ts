@@ -3,13 +3,26 @@ import { type Request } from 'express';
 import { mkdirSync } from 'fs';
 
 // Ensure directories exist
-mkdirSync(process.env.UPLOAD_DIR ? `${process.env.UPLOAD_DIR}/photos` : './public/photos', { recursive: true });
-mkdirSync(process.env.UPLOAD_DIR ? `${process.env.UPLOAD_DIR}/shoes` : './public/shoes', { recursive: true });
+mkdirSync(
+  process.env.UPLOAD_DIR
+    ? `${process.env.UPLOAD_DIR}/photos`
+    : './public/photos',
+  { recursive: true }
+);
+mkdirSync(
+  process.env.UPLOAD_DIR ? `${process.env.UPLOAD_DIR}/shoes` : './public/shoes',
+  { recursive: true }
+);
 
 // Configure local storage for avatars
 const avatarStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, process.env.UPLOAD_DIR ? `${process.env.UPLOAD_DIR}/photos` : './public/photos');
+    cb(
+      null,
+      process.env.UPLOAD_DIR
+        ? `${process.env.UPLOAD_DIR}/photos`
+        : './public/photos'
+    );
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `photos-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
@@ -20,7 +33,12 @@ const avatarStorage = multer.diskStorage({
 // Configure local storage for shoes
 const shoesStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, process.env.UPLOAD_DIR ? `${process.env.UPLOAD_DIR}/shoes` : './public/shoes');
+    cb(
+      null,
+      process.env.UPLOAD_DIR
+        ? `${process.env.UPLOAD_DIR}/shoes`
+        : './public/shoes'
+    );
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `shoes-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
@@ -29,13 +47,21 @@ const shoesStorage = multer.diskStorage({
 });
 
 // File filter to allow only specific image types
-const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const fileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback
+) => {
   try {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error(`Invalid file type: ${file.mimetype}. Only JPEG, PNG, and GIF are allowed.`));
+      cb(
+        new Error(
+          `Invalid file type: ${file.mimetype}. Only JPEG, PNG, and GIF are allowed.`
+        )
+      );
     }
   } catch (error) {
     cb(error instanceof Error ? error : new Error('Error in file filter'));

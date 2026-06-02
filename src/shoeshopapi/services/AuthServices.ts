@@ -1,22 +1,27 @@
-import type { Request, Response } from "express";
-import { UsersTable } from "../db/schema.ts";
-import db from "../db/index.ts";
-import { eq } from "drizzle-orm";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import type { Request, Response } from 'express';
+import { UsersTable } from '../db/schema.ts';
+import db from '../db/index.ts';
+import { eq } from 'drizzle-orm';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 export const handleRegister = async (req: Request, res: Response) => {
-  console.log("Register req body ",req.body)
+  console.log('Register req body ', req.body);
   try {
     const { name, email, password, avator, role } = req.body;
     // Validate input
     if (!name || !email || !password) {
-      return res.status(400).json({ error: "Name, email, and password are required" });
+      return res
+        .status(400)
+        .json({ error: 'Name, email, and password are required' });
     }
 
     // Check if email exists
-    const existingUser = await db.select().from(UsersTable).where(eq(UsersTable.email, email));
+    const existingUser = await db
+      .select()
+      .from(UsersTable)
+      .where(eq(UsersTable.email, email));
     if (existingUser.length > 0) {
-      return res.status(400).json({ error: "Email already exists" });
+      return res.status(400).json({ error: 'Email already exists' });
     }
 
     // Hash password
@@ -31,57 +36,81 @@ export const handleRegister = async (req: Request, res: Response) => {
         email,
         password: hashedPassword,
         avator: avator || null,
-        role: role || "CUSTOMER",
+        role: role || 'CUSTOMER',
       })
       .returning();
-      if(!newUser) return new Error("Internal serer error.");
-      // Generate JWT
-      const secret = process.env.JWT_SECRET;
-      if (!secret) {
-        throw new Error("JWT_SECRET is not set");
-      }
-    const token = jwt.sign({ userId: newUser.id, role: newUser.role }, secret, { expiresIn: "1h" });
+    if (!newUser) return new Error('Internal serer error.');
+    // Generate JWT
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error('JWT_SECRET is not set');
+    }
+    const token = jwt.sign({ userId: newUser.id, role: newUser.role }, secret, {
+      expiresIn: '1h',
+    });
 
-    res.status(201).json({ token, user: { id: newUser.id, name, email, role: newUser.role,avator:newUser.avator } });
+    res.status(201).json({
+      token,
+      user: {
+        id: newUser.id,
+        name,
+        email,
+        role: newUser.role,
+        avator: newUser.avator,
+      },
+    });
   } catch (error) {
-    console.error("Registration error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-}
-export const handleLogin =  async (req: Request, res: Response) => {
-  console.log("Login req body ",req.body)
+};
+export const handleLogin = async (req: Request, res: Response) => {
+  console.log('Login req body ', req.body);
   try {
     const { email, password } = req.body;
-      
 
     // Validate input
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     // Find user
-    const [user] = await db.select().from(UsersTable).where(eq(UsersTable.email, email));
-    
+    const [user] = await db
+      .select()
+      .from(UsersTable)
+      .where(eq(UsersTable.email, email));
+
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Generate JWT
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      throw new Error("JWT_SECRET is not set");
+      throw new Error('JWT_SECRET is not set');
     }
-    const token = jwt.sign({ userId: user.id, role: user.role }, secret, { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user.id, role: user.role }, secret, {
+      expiresIn: '1h',
+    });
 
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role,avator:user.avator } });
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avator: user.avator,
+      },
+    });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-}
+};

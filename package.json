@@ -7,12 +7,17 @@
   "scripts": {
     "start": "bun run dist/index.js",
     "dev": "bun --watch src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" ",
     "seed:shoeshopapi": "bun src/shoeshopapi/db/seed.ts",
     "build": "bun build src/index.ts --outdir dist --target node",
     "migrate:shoeshopapi": "bunx drizzle-kit migrate --config=drizzle.config.shoeshopapi.ts",
     "generate:shoeshopapi": "bunx drizzle-kit generate --config=drizzle.config.shoeshopapi.ts"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/bcrypt": "^6.0.0",
     "@types/bun": "latest",
     "@types/jsonwebtoken": "^9.0.10",
@@ -20,22 +25,26 @@
     "@types/pg": "^8.15.5",
     "dotenv-cli": "^10.0.0",
     "drizzle-kit": "^0.31.4",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.10",
-    "tsx": "^4.20.5"
+    "prettier": "^3.8.3",
+    "tsx": "^4.20.5",
+    "typescript-eslint": "^8.60.1"
   },
   "peerDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.3.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.1",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "cron": "^4.3.4",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "pg": "^8.16.3",

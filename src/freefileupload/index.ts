@@ -4,6 +4,6 @@ import { uploadFree } from '../shoeshopapi/services/UserServices.ts';
 
 const freeUpload = express.Router();
 
-freeUpload.post('/freeuploadavator',uploadAvator.single('photos'),uploadFree)
+freeUpload.post('/freeuploadavator', uploadAvator.single('photos'), uploadFree);
 
 export default freeUpload;

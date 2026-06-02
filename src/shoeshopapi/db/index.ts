@@ -12,4 +12,4 @@ if (!process.env.SHOES_SHOP_API_DATABASE_URL) {
 const client = postgres(process.env.SHOES_SHOP_API_DATABASE_URL);
 
 // Initialize Drizzle ORM with schema and logging
-export  default drizzle(client, { schema, logger: true });
+export default drizzle(client, { schema, logger: true });
