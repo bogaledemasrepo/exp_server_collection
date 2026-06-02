@@ -6,6 +6,7 @@ import job from './lib/cron.ts';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import freeUpload from './freefileupload/index.ts';
+import fastEccomerce from './fasteccomerceapi/index.ts';
 
 dotenv.config();
 const upload = multer();
@@ -22,69 +23,11 @@ job.start();
 app.get('/health', handleHealth);
 
 // Root route
+app.use("/fasteccomerceapi",fastEccomerce);
 app.use('/shoeshop', shoeShopServer);
 app.use('/bgtgbot', bgTelegramBotServer);
 app.use('/clothes', clothesServer);
 app.use('/upload', freeUpload);
-app.get('/', (req: Request, res: Response) => {
-  res.json({
-    Description: 'Welcome to the Multi-API Express Server with Bun!',
-    'Shoe sho api': {
-      'PUBLIC END POINT': [
-        {
-          Register: {
-            route: 'http://localhost:3000/shoeshop/auth/login',
-            method: 'POST',
-            body: {
-              name: 'Son Smith',
-              email: 'son.smith@example.com',
-              password: 'customer123',
-            },
-          },
-          Login: {
-            route: 'http://localhost:3000/shoeshop/auth/login',
-            method: 'POST',
-            body: {
-              email: 'john.doe@example.com',
-              password: 'admin123',
-            },
-          },
-        },
-      ],
-      'PRIVATE END POINT': [
-        {
-          'Get Profile': {
-            route:
-              'https://exp-server-collection.onrender.com/shoeshop/auth/me',
-            method: 'GET',
-          },
-          'Get paged shoes': {
-            route: '',
-            method: 'GET',
-          },
-          'Add shoes': {
-            route: '',
-            method: 'POST',
-            body: {},
-          },
-          'Get shoes datail': {
-            route: '',
-            method: 'GET',
-          },
-          'Update shoes': {
-            route: '',
-            method: 'PUT',
-            body: {},
-          },
-          'Delete shoes': {
-            route: '',
-            method: 'DELETE',
-          },
-        },
-      ],
-    },
-  });
-});
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Resource not found.' });

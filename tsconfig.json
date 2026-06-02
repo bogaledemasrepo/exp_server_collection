@@ -3,16 +3,16 @@
     // Environment setup
     "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "NodeNext", // Changed from "Preserve" for explicit ES modules, compatible with Bun
+    "module": "Preserve", 
     "moduleDetection": "force",
-    "allowJs": true, // Keep if you have JS files; remove if not needed
-    // "jsx": "react-jsx", // Remove if not using React/JSX in this project
+    "allowJs": true, 
+    "types": ["bun", "node"], 
 
     // Module resolution
-    "moduleResolution": "NodeNext", // Changed to "NodeNext" for Node.js/Bun server-side compatibility
-    "allowImportingTsExtensions": true, // Allows importing .ts/.tsx files
+    "moduleResolution": "bundler", 
+    "allowImportingTsExtensions": true, 
     "verbatimModuleSyntax": true,
-    "noEmit": true, // Keep since Bun runs TS natively
+    "noEmit": true, 
 
     // Best practices
     "strict": true,
@@ -21,16 +21,18 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
-    // Stricter flags (keep as-is unless you want to enable them)
+    // Stricter flags
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     
-    // Output configuration (optional, for production builds)
-    "outDir": "./dist", // Add for compiled output if you build for production
-    "rootDir": "./src" // Add to specify source directory
+    // Output configuration
+    "outDir": "./dist", 
+    "rootDir": "./src" 
   },
-  // Include/exclude for better control
-  "include": ["src/**/*"],
+"include": [
+    "src/**/*", 
+    "drizzle.config.ts" // Add this line
+  ],
   "exclude": ["node_modules", "dist", "drizzle"]
 }
