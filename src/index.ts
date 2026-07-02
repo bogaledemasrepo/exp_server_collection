@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from 'express';
+import cors from "cors"
 import bgTelegramBotServer from './bgtelegrambotapi/index.ts';
 import shoeShopServer from './shoeshopapi/index.ts';
 import clothesServer from './clothesapi/index.ts';
@@ -11,10 +12,10 @@ import fastEccomerce from './fasteccomerceapi/index.ts';
 dotenv.config();
 const upload = multer();
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
-
 const handleHealth = (req: Request, res: Response) => {
   res.status(200).json({ success: true });
 };
